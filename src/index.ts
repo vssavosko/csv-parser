@@ -1,27 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { parse } from '@fast-csv/parse';
-import { Parser } from 'json2csv';
 
 import { getParsedData } from './utils/getParsedData';
+import { createPreparedCsv } from './utils/createPreparedCsv';
 
-const sourceCsvDirectoryPath = path.join(__dirname, '../src/source-csv');
-const preparedCsvDirectoryPath = path.join(__dirname, `../src/prepared-csv`);
-
-const createPreparedCsv = (fileName: string, csvData: object[]) => {
-  try {
-    const json2csvParser = new Parser();
-    const csv = json2csvParser.parse(csvData);
-
-    if (fileName) {
-      fs.writeFileSync(`${preparedCsvDirectoryPath}/${fileName}`, csv);
-    } else {
-      throw new Error('File does not exist!');
-    }
-  } catch (error) {
-    console.error('Unable to write file: ', error);
-  }
-};
+const sourceCsvDirectoryPath = path.join(process.cwd(), 'src/source-csv');
 
 fs.readdir(sourceCsvDirectoryPath, (error, files) => {
   if (error) {
