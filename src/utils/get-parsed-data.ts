@@ -1,4 +1,4 @@
-import { getValueFromCookie } from './getValueFromCookie';
+import { getValueFromCookie } from './get-value-from-cookie';
 
 interface GetParsedDataProps {
   cookie: string;
