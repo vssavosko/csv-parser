@@ -4,13 +4,18 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
-    "rootDir": "src",
     "resolveJsonModule": true,
-    "outDir": "build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitAny": false,
-    "skipLibCheck": true
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "rootDir": "src",
+    "outDir": "build",
+    "paths": {
+      "constants/*": ["constants/*"],
+      "utils/*": ["utils/*"]
+    }
   }
 }
