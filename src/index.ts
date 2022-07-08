@@ -2,23 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import { parse } from '@fast-csv/parse';
 
-import { getParsedData } from './utils/getParsedData';
-import { createPreparedCsv } from './utils/createPreparedCsv';
+import { getParsedData } from './utils/get-parsed-data';
+import { createPreparedFiles } from './utils/create-prepared-files';
 
-const sourceCsvDirectoryPath = path.join(process.cwd(), 'src/source-csv');
+const pathToSourceFilesDirectory = path.join(process.cwd(), 'src/csv-files/source');
 
-fs.readdir(sourceCsvDirectoryPath, (error, files) => {
+fs.readdir(pathToSourceFilesDirectory, (error, files) => {
   if (error) {
     return console.error('Unable to scan directory: ', error);
   }
 
   files.forEach((fileName) => {
-    const csvData: object[] = [];
+    const fileData: object[] = [];
 
-    fs.createReadStream(`${sourceCsvDirectoryPath}/${fileName}`)
+    fs.createReadStream(`${pathToSourceFilesDirectory}/${fileName}`)
       .pipe(parse({ headers: true }))
       .on('error', (error) => console.error('Unable to read file: ', error))
-      .on('data', (data) => csvData.push(getParsedData(data)))
-      .on('end', () => createPreparedCsv(fileName, csvData));
+      .on('data', (data) => fileData.push(getParsedData(data)))
+      .on('end', () => createPreparedFiles(fileName, fileData));
   });
 });

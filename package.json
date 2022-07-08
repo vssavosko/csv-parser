@@ -1,10 +1,10 @@
 {
   "name": "csv-parser",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "",
-  "main": "./build/index.js",
+  "main": "build/index.js",
   "scripts": {
-    "build": "rm -r ./build && tsc",
+    "build": "rm -r build && tsc",
     "start": "npm run build && node build/index.js"
   },
   "repository": {
@@ -12,7 +12,7 @@
     "url": "git+git@github.com:vssavosko/csv-parser.git"
   },
   "author": "https://github.com/vssavosko",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vssavosko/csv-parser/issues"
   },
