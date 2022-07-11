@@ -4,7 +4,12 @@ import { Parser } from 'json2csv';
 
 import { DirectoryPaths } from 'constants/enums';
 
-export const createPreparedFiles = (fileName: string, fileData: object[]) => {
+interface ICreatePreparedFiles {
+  fileName: string;
+  fileData: Record<string, string>[];
+}
+
+export const createPreparedFiles = ({ fileName, fileData }: ICreatePreparedFiles) => {
   const pathToPreparedFilesDirectory = path.join(process.cwd(), DirectoryPaths.prepared);
 
   try {

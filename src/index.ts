@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { parse } from '@fast-csv/parse';
 
+import { userFileData } from 'configs/user-file-data';
+
 import { DirectoryPaths } from 'constants/enums';
 
 import { getParsedData } from 'utils/get-parsed-data';
@@ -15,12 +17,19 @@ fs.readdir(pathToSourceFilesDirectory, (error, files) => {
   }
 
   files.forEach((fileName) => {
-    const fileData: object[] = [];
+    const fileData: Record<string, string>[] = [];
 
     fs.createReadStream(`${pathToSourceFilesDirectory}/${fileName}`)
       .pipe(parse({ headers: true }))
       .on('error', (error) => console.error('Unable to read file: ', error))
-      .on('data', (data) => fileData.push(getParsedData(data)))
-      .on('end', () => createPreparedFiles(fileName, fileData));
+      .on('data', (sourceFileData) =>
+        fileData.push(
+          getParsedData({
+            sourceFileData,
+            userFileData,
+          })
+        )
+      )
+      .on('end', () => createPreparedFiles({ fileName, fileData }));
   });
 });
