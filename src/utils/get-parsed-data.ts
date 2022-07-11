@@ -1,19 +1,46 @@
-import { getValueFromCookie } from './get-value-from-cookie';
+type ValueWithRegExpType = {
+  regExp: RegExp;
 
-interface GetParsedDataProps {
-  cookie: string;
+  captureGroup?: number;
+};
+
+type ValuesType = string | ValueWithRegExpType;
+
+interface IGetParsedData {
+  sourceFileData: Record<string, string>;
+  userFileData: {
+    columnNamesToParse: string[];
+    columnNamesInPreparedFile: string[];
+    values: ValuesType[];
+  };
 }
 
-export const getParsedData = ({ cookie }: GetParsedDataProps) => {
-  const firstName = getValueFromCookie(cookie, 'impress_firstname');
-  const lastName = getValueFromCookie(cookie, 'impress_lastname');
-  const email = getValueFromCookie(cookie, 'impress_email');
-  const phone = getValueFromCookie(cookie, 'impress_phone');
+export const getParsedData = ({
+  sourceFileData,
+  userFileData: { columnNamesToParse, columnNamesInPreparedFile, values },
+}: IGetParsedData) => {
+  const result: Record<string, string> = {};
 
-  return {
-    'First Name': firstName,
-    'Last Name': lastName,
-    Email: email,
-    'Phone Number': phone,
-  };
+  columnNamesToParse.forEach((columnName, index) => {
+    const sourceFileColumnData = sourceFileData[columnName];
+    const currentValue = values[index];
+
+    if (!sourceFileColumnData || !currentValue) return;
+
+    const columnNameInPreparedFile = columnNamesInPreparedFile[index] || columnName;
+
+    if (currentValue instanceof Object) {
+      const { regExp, captureGroup } = currentValue as ValueWithRegExpType;
+
+      return (result[columnNameInPreparedFile] = decodeURIComponent(
+        sourceFileColumnData.match(regExp)?.[captureGroup || 0] || ''
+      ));
+    }
+
+    result[columnNameInPreparedFile] = decodeURIComponent(
+      sourceFileColumnData.match(currentValue as string)?.[0] || ''
+    );
+  });
+
+  return result;
 };

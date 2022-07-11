@@ -10,12 +10,15 @@
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
+    "moduleResolution": "node",
     "baseUrl": "src",
-    "rootDir": "src",
     "outDir": "build",
     "paths": {
+      "configs/*": ["configs/*"],
       "constants/*": ["constants/*"],
       "utils/*": ["utils/*"]
     }
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
