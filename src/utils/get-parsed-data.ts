@@ -3,34 +3,30 @@ type ValueWithRegExpType = {
 
   captureGroup?: number;
 };
-
-type ValuesType = string | ValueWithRegExpType;
+type ValueType = string | ValueWithRegExpType;
+type FileDataType = {
+  columnName: string;
+  newColumnName: string;
+  value: ValueType;
+};
 
 interface IGetParsedData {
   sourceFileData: Record<string, string>;
-  userFileData: {
-    columnNamesToParse: string[];
-    columnNamesInPreparedFile: string[];
-    values: ValuesType[];
-  };
+  userFileData: FileDataType[];
 }
 
-export const getParsedData = ({
-  sourceFileData,
-  userFileData: { columnNamesToParse, columnNamesInPreparedFile, values },
-}: IGetParsedData) => {
+export const getParsedData = ({ sourceFileData, userFileData }: IGetParsedData) => {
   const result: Record<string, string> = {};
 
-  columnNamesToParse.forEach((columnName, index) => {
+  userFileData.forEach(({ columnName, newColumnName, value }) => {
     const sourceFileColumnData = sourceFileData[columnName];
-    const currentValue = values[index];
 
-    if (!sourceFileColumnData || !currentValue) return;
+    if (!sourceFileColumnData || !value) return;
 
-    const columnNameInPreparedFile = columnNamesInPreparedFile[index] || columnName;
+    const columnNameInPreparedFile = newColumnName || columnName;
 
-    if (currentValue instanceof Object) {
-      const { regExp, captureGroup } = currentValue as ValueWithRegExpType;
+    if (value instanceof Object) {
+      const { regExp, captureGroup } = value as ValueWithRegExpType;
 
       return (result[columnNameInPreparedFile] = decodeURIComponent(
         sourceFileColumnData.match(regExp)?.[captureGroup || 0] || ''
@@ -38,7 +34,7 @@ export const getParsedData = ({
     }
 
     result[columnNameInPreparedFile] = decodeURIComponent(
-      sourceFileColumnData.match(currentValue as string)?.[0] || ''
+      sourceFileColumnData.match(value as string)?.[0] || ''
     );
   });
 
