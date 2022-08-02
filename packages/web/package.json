@@ -1,15 +1,19 @@
 {
-  "name": "csv-parser",
-  "version": "1.4.0",
+  "name": "@csv-parser/web",
+  "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "/build/src"
+  ],
   "scripts": {
-    "build": "rm -rf build && tsc",
-    "start": "npm run build && TS_NODE_BASEURL=build node -r tsconfig-paths/register build/index.js"
+    "build": "rm -rf build && tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+git@github.com:vssavosko/csv-parser.git"
+    "url": "git+git@github.com:vssavosko/csv-parser.git",
+    "directory": "packages/web"
   },
   "author": "https://github.com/vssavosko",
   "license": "MIT",
