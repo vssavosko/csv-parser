@@ -1,24 +1,11 @@
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "target": "es5",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "module": "commonjs",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "skipLibCheck": true,
-    "moduleResolution": "node",
-    "baseUrl": "src",
-    "outDir": "build",
+    "baseUrl": ".",
     "paths": {
-      "configs/*": ["configs/*"],
-      "constants/*": ["constants/*"],
-      "utils/*": ["utils/*"]
+      "@csv-parser/node": ["packages/node/src"],
+      "@csv-parser/web": ["packages/web/src"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "references": [{ "path": "./packages/node" }, { "path": "./packages/web" }]
 }
