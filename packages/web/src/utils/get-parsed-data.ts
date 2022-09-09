@@ -11,10 +11,10 @@ export const getParsedData = ({ sourceFileData, userFileData }: IGetParsedData) 
     const columnNameInPreparedFile = newColumnName || columnName;
 
     if (value instanceof Object) {
-      const { regExp, captureGroup } = value as ValueWithRegExpType;
+      const { regExpPattern, captureGroup } = value as ValueWithRegExpType;
 
       return (result[columnNameInPreparedFile] = decodeURIComponent(
-        sourceFileColumnData.match(new RegExp(regExp))?.[captureGroup || 0] || ''
+        sourceFileColumnData.match(new RegExp(regExpPattern))?.[captureGroup || 0] || ''
       ));
     }
 
