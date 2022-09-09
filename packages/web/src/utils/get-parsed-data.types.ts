@@ -1,5 +1,5 @@
 export type ValueWithRegExpType = {
-  regExp: RegExp;
+  regExp: string;
 
   captureGroup?: number;
 };

@@ -14,7 +14,7 @@ export const getParsedData = ({ sourceFileData, userFileData }: IGetParsedData) 
       const { regExp, captureGroup } = value as ValueWithRegExpType;
 
       return (result[columnNameInPreparedFile] = decodeURIComponent(
-        sourceFileColumnData.match(regExp)?.[captureGroup || 0] || ''
+        sourceFileColumnData.match(new RegExp(regExp))?.[captureGroup || 0] || ''
       ));
     }
 
