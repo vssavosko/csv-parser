@@ -1,11 +1,11 @@
 import { Parser } from 'json2csv';
 
-interface ICreatePreparedFile {
-  fileName: string;
-  fileData: Record<string, string>[];
-}
+import { ICreatePreparedFile, ICreatePreparedFileReturnData } from './create-prepared-file.types';
 
-export const createPreparedFile = ({ fileName, fileData }: ICreatePreparedFile) => {
+export const createPreparedFile = ({
+  fileName,
+  fileData,
+}: ICreatePreparedFile): ICreatePreparedFileReturnData | never => {
   try {
     const json2csvParser = new Parser();
     const csvFormattedData = json2csvParser.parse(fileData);
@@ -16,6 +16,6 @@ export const createPreparedFile = ({ fileName, fileData }: ICreatePreparedFile) 
 
     throw 'File does not exist!';
   } catch (error) {
-    throw new Error(`Unable to write file: ${error}`);
+    throw `Unable to write file: ${error}`;
   }
 };
